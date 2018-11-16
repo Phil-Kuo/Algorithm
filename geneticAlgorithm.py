@@ -1,6 +1,5 @@
 import numpy as np
-import matplot.pyplot as pyplot
-import random
+import matplotlib.pyplot as plt
 import copy
 from gaIndividual import gaIndividual
 
@@ -75,10 +74,11 @@ class geneticAlgorithm:
                 self.averageFitneess = np.mean(self.fitness)
                 self.trace[self.t, 0] = (1 - self.best.fitness) / self.best.fitness
                 self.trace[self.t, 1] = (1 - self.averageFitneess) / self.averageFitneess
-            print("Generation %d: optimal function value is: %f; average function value is %f" % ( self.t, self.trace[self.t, 0], self.trace[self.t, 1])) print("Optimal function value is: %f; " % self.trace[self.t, 0]) 
-            print ("Optimal solution is:") 
-            print (self.best.chrom) 
-            self.printResult()
+            print("Generation %d: optimal function value is: %f; average function value is %f" % ( self.t, self.trace[self.t, 0], self.trace[self.t, 1]))
+        print("Optimal function value is: %f; " % self.trace[self.t, 0]) 
+        print ("Optimal solution is:") 
+        print (self.best.chrom) 
+        self.printResult()
         
     def selectionOperation(self):
         '''
@@ -116,7 +116,7 @@ class geneticAlgorithm:
         for i in range(0, self.popSize, 2):
             idx1 = np.random.randint(0, self.popSize - 1)
             idx2 = np.random.randint(0, self.popSize - 1)
-            while idx1 = idx2:
+            while idx1 == idx2:
                 idx2 = np.random.randint(0, self.popSize - 1)
             newPopulation.append(copy.deepcopy(self.population[idx1]))
             newPopulation.append(copy.deepcopy(self.population[idx2]))
@@ -143,11 +143,12 @@ class geneticAlgorithm:
                 if theta > 0.5:
                     newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] - (newPopulation[i].chrom[mutatePos] - self.bound[0,mutatePos]) * (1 - np.random.random()**(1- self.t/self.MAXGEN))
                 else:
-                    newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] + (self.bound[1, mutatePos] - newPopulation[i].chrom[mutatePos])* (1 - random.random() ** (1 - self.t / self.MAXGEN))
+                    newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] + (self.bound[1, mutatePos] - newPopulation[i].chrom[mutatePos])* (1 - np.random.random() ** (1 - self.t / self.MAXGEN))
 
         self.population = newPopulation
     
-    def printResult(self): '''
+    def printResult(self): 
+        '''
         plot the result of the genetic algorithm
         画出结果
         ''' 
@@ -160,8 +161,9 @@ class geneticAlgorithm:
         plt.ylabel("function value") 
         plt.title("Genetic algorithm for function optimization") 
         plt.legend() 
-        plt.show()
+        plt.savefig('GA_iteration.png', dpi=400, bbox_inches='tight')
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     boundaries = np.tile([[-600],[600]],25)
     ga = geneticAlgorithm(60, 25, boundaries, 1000,[0.9, 0.1, 0.5])
+    ga.solve()
