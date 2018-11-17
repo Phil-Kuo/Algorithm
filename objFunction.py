@@ -16,12 +16,9 @@ def grieFunc(vardim, x, bound):
 
 def rastFunc(vardim, x, bound):
     """
-    Rastrigin function
-    在数学优化中，Rastrigin函数是一个非凸函数，用作优化算法的性能测试问题。这是一个非线性多模态函数的典型例子。它最初由Rastrigin [1]提出作为二维函数，并已被Mühlenbein等人推广。[2]寻找这个函数的最小值是一个相当困难的问题，因为它有很大的搜索空间和大量的局部最小值。
-
-在一个n维域上，它被定义为：
-
-{\ displaystyle f（\ mathbf {x}）= An + \ sum _ {i = 1} ^ {n} \ left [x_ {i} ^ {2} -A \ cos（2 \ pi x_ {i}）\对]} f（\ mathbf {x}）= An + \ sum _ {i = 1} ^ {n} \ left [x_ {i} ^ {2} -A \ cos（2 \ pi x_ {i}）\ right]
+    Rastrigin function    在数学优化中，Rastrigin函数是一个非凸函数，用作优化算法的性能测试问题。这是一个非线性多模态函数的典型例子。
+    它最初由Rastrigin [1]提出作为二维函数，并已被Mühlenbein等人推广。[2]寻找这个函数的最小值是一个相当困难的问题，因为它有很大的搜索空间和大量的局部最小值。
+    在一个n维域上，它被定义为：{\ displaystyle f（\ mathbf {x}）= An + \ sum _ {i = 1} ^ {n} \ left [x_ {i} ^ {2} -A \ cos（2 \ pi x_ {i}）\对]} f（\ mathbf {x}）= An + \ sum _ {i = 1} ^ {n} \ left [x_ {i} ^ {2} -A \ cos（2 \ pi x_ {i}）\ right]
     """
     s = 10 *25
     for i in range(1, vardim+1):

@@ -74,7 +74,7 @@ class geneticAlgorithm:
                 self.averageFitneess = np.mean(self.fitness)
                 self.trace[self.t, 0] = (1 - self.best.fitness) / self.best.fitness
                 self.trace[self.t, 1] = (1 - self.averageFitneess) / self.averageFitneess
-            print("Generation %d: optimal function value is: %f; average function value is %f" % ( self.t, self.trace[self.t, 0], self.trace[self.t, 1]))
+            # print("Generation %d: optimal function value is: %f; average function value is %f" % ( self.t, self.trace[self.t, 0], self.trace[self.t, 1]))
         print("Optimal function value is: %f; " % self.trace[self.t, 0]) 
         print ("Optimal solution is:") 
         print (self.best.chrom) 
@@ -141,9 +141,9 @@ class geneticAlgorithm:
                 mutatePos = np.random.randint(0, self.vardim-1)
                 theta = np.random.random()
                 if theta > 0.5:
-                    newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] - (newPopulation[i].chrom[mutatePos] - self.bound[0,mutatePos]) * (1 - np.random.random()**(1- self.t/self.MAXGEN))
+                    newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] - (newPopulation[i].chrom[mutatePos] - self.bound[0,mutatePos]) * (1 - np.random.random() * (1- self.t/self.MAXGEN)**2)
                 else:
-                    newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] + (self.bound[1, mutatePos] - newPopulation[i].chrom[mutatePos])* (1 - np.random.random() ** (1 - self.t / self.MAXGEN))
+                    newPopulation[i].chrom[mutatePos] = newPopulation[i].chrom[mutatePos] - (self.bound[1, mutatePos] - newPopulation[i].chrom[mutatePos])* (1 - np.random.random() *(1 - self.t / self.MAXGEN)**2)
 
         self.population = newPopulation
     
@@ -152,18 +152,19 @@ class geneticAlgorithm:
         plot the result of the genetic algorithm
         画出结果
         ''' 
+        plt.close()
         x = np.arange(0, self.MAXGEN) 
-        y1 = self.trace[:, 0] 
-        y2 = self.trace[:, 1] 
-        plt.plot(x, y1, 'r', label='optimal value') 
-        plt.plot(x, y2, 'g', label='average value') 
-        plt.xlabel("Iteration") 
-        plt.ylabel("function value") 
-        plt.title("Genetic algorithm for function optimization") 
-        plt.legend() 
+        labels = ["optimal value", "average avlue"]
+        
+        fig, axes = plt.subplots(2,1, figsize=(8,6),sharey=True)
+        
+        for i in range(2):
+            axes[i].plot(x, self.trace[:,i], 'r', label=labels[i]) 
+            axes[i].legend(loc='best')
+        plt.subplots_adjust(wspace=0,hspace=0)
         plt.savefig('GA_iteration.png', dpi=400, bbox_inches='tight')
 
 if __name__ == "__main__":
     boundaries = np.tile([[-600],[600]],25)
-    ga = geneticAlgorithm(60, 25, boundaries, 1000,[0.9, 0.1, 0.5])
+    ga = geneticAlgorithm(60, 25, boundaries, 500, [0.9, 0.1, 0.5])
     ga.solve()
