@@ -89,10 +89,7 @@ class geneticAlgorithm:
         totalFitness = np.sum(self.fitness)
         accuFitness = np.zeros((self.popSize, 1))
 
-        sum1 = 0.
-        for i in range(0, self.popSize):
-            accuFitness[i] = sum1 + self.fitness[i] / totalFitness
-            sum1 = accuFitness[i]
+        accuFitness = np.cumsum(self.fitness) / totalFitness
         
         for i in range(0, self.popSize):
             r = np.random.random()
