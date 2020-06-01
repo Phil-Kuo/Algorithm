@@ -162,7 +162,7 @@ def kmeans(data, k, initial_centroids, maxiter=500, record_heterogeneity=None, v
     return centroids, cluster_assignment
 
 # Mock test below
-if False: # change to true to run this test case.
+if True: # change to true to run this test case.
     import sklearn.datasets as ds
     dataset = ds.load_iris()
     k = 3
